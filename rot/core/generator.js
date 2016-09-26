@@ -4,16 +4,23 @@ var Generator = {
 
     // Return a 2D Array of map x (mx) by map y (my) size filled with wallTile
     fill: function(mx, my, wallTile) {
+
         var map = []
+
         for (var x = 0; x < mx; x++) {
+
             // Create the nested array for the y values
             map.push([]);
+
             // Add all the tiles with a wall tile
             for (var y = 0; y < my; y++) {
                 map[x].push(wallTile);
             }
+
         }
+
         return map
+
     },
 
     // Build a structure from raw data
@@ -34,8 +41,9 @@ var Generator = {
         // Add to map where the top left corner will be at pos
         // Pos must be an array of two ints
         for (var x = 0; x < rawStruct.length; x++) {
+
             for (var y = 0; y < rawStruct[0].length; y++) {
-                // struct[0] and [1] contain tile data, which corresponds to
+                // struct[0] to [length - 1] contain tile data, which corresponds to
                 // 0 and 1s in the struct
 
                 if (rawStruct[x][y] < maxTileTypes) {
@@ -80,6 +88,7 @@ var Generator = {
     // Use a drunkard's walk cellular automata to turn blocking tiles into
     // floorTile.
     drunkardsWalk: function(map, floorTile, walkThresh) {
+
         // Get random start position
         var pos = RandomPos.getFor(map.length, map[0].length);
 
@@ -87,6 +96,7 @@ var Generator = {
         var open = 0;
 
         while (open != walkThresh) {
+
             // Replace blocking tiles with floorTile
             if (map[pos[0]][pos[1]].getBlocks() == true) {
                 map[pos[0]][pos[1]] = Structures.getTile(floorTile);
@@ -94,18 +104,23 @@ var Generator = {
             }
 
             // Roll a random direction
-            var dice = Math.floor((Math.random() * 4) + 1);
-            if (dice == 1) {
-                pos[0] += 1;
-            } else if (dice == 2) {
-                pos[0] -= 1;
-            } else if (dice == 3) {
-                pos[1] += 1;
-            } else if (dice == 4) {
-                pos[1] -= 1;
+            switch (Math.floor((Math.random() * 4) + 1)) {
+                case 1:
+                    pos[0] += 1;
+                    break;
+                case 2:
+                    pos[0] -= 1;
+                    break;
+                case 3:
+                    pos[1] += 1;
+                    break;
+                case 4:
+                    pos[1] -= 1;
+                    break;
             }
 
             // Check for overflow
+            // The '- 2' Prevents eating the visible border
             if (Settings.mapWidth - 2 < pos[0]) {
                 pos[0] = Settings.mapWidth - 2;
             } else if (pos[0] < 0) {
@@ -142,6 +157,7 @@ var Generator = {
         for (var i = 0; i < smoothingPasses - 1; i++) {
             generator.create();
         }
+
         // Smoothen it one last time and then update our map
         generator.create(function(x,y,v) {
             if (v === 1) {
@@ -159,13 +175,28 @@ var Generator = {
         return map;
     },
 
+    // Randomly place a tile on tiles
+    randomlyPlace: function(tiles, tile, times) {
+
+            for (var i = 0 ; i < times ; i++) {
+                pos = RandomPos.getFor(tiles.length, tiles[0].length);
+                tiles[pos[0]][pos[1]] = Structures.getTile(tile);
+            }
+
+            return tiles;
+    },
+
     // Rotate an array 90 degrees to the right
     rotateRight: function(array) {
 
         return array.map(function(col, i) {
+
           return array.map(function(row) {
-            return row[i]
+
+            return row[i];
+
           })
+
         });
 
     },
@@ -201,8 +232,14 @@ var Generator = {
     // Wrapper to make fields. Density is fixed
     makeTaiga: function(mx, my, smoothingPasses) {
         var map = this.makeCave(mx, my, 'tree_ev', 'tree_ev', 'snow', smoothingPasses, 0.4);
-        // return this.buildStructures(map, 'field');
         return map
+    },
+
+    // Wrapper to make deserts. Density and smoothingPasses are fixed
+    makeDesert: function(mx, my) {
+        var map = this.makeCave(mx, my, 'sand', 'sand', 'sand', 0, 0.4);
+        map = this.randomlyPlace(map, 'cactus', 40);
+        return this.buildStructures(map, 'desert');
     },
 
     // Make a natural cave with some strucutres

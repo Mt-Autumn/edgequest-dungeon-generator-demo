@@ -30,7 +30,7 @@ var startScreen = {
         Canvas.getDisplay().drawText(1, 3, "- Arrow keys to move");
         Canvas.getDisplay().drawText(1, 4, "- 'p' to pause");
         Canvas.getDisplay().drawText(1, 5, "- Worlds are infinite, you aren't confined by the screen!");
-        Canvas.getDisplay().drawText(1, 6, "- Use keys from 'a' to 'g' to override the current biome");
+        Canvas.getDisplay().drawText(1, 6, "- Use keys from 'a' to 'h' to override the current biome");
         Canvas.getDisplay().drawText(1, 7, "- Press '<' and '>' on their respective tiles to go up and down");
         Canvas.getDisplay().drawText(1, 9, "Press [Enter] to start!");
     },
@@ -140,6 +140,9 @@ var playScreen = {
                 this.renderAll();
             } else if (key === "g") {
                 Game.debugSetBiome('taiga');
+                this.renderAll();
+            } else if (key === "h") {
+                Game.debugSetBiome('desert');
                 this.renderAll();
 
             } else {

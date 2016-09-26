@@ -17,7 +17,8 @@ var Map = {
         'forest': 6,
         'dense forest': 2,
         'field': 4,
-        'taiga': 1
+        'taiga': 1,
+        'desert': 1
     },
 
     _UndergroundBiomeChance: {
@@ -102,6 +103,9 @@ var Map = {
                 break;
             case 'field':
                 return Generator.makeField(this._width, this._height, 3);
+                break;
+            case 'desert':
+                return Generator.makeDesert(this._width, this._height);
                 break;
             // Default is a field
             default:

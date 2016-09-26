@@ -5,8 +5,11 @@
 - All possible blocks that could be used for maps must be put in the
 blocks dictionary.
 
+- All possible structures that could be used for maps must be put in the
+struct dictionary.
+
 - Then, biome specific strucures can be created and added to their own
-dictionary, where the key is the name of the structure
+dictionary, where the key is the name of the structure, and the value is struct[key]
 
 - From there, another dictionary is needed to house their chances of randomly
 appearing, where the key is once again the name of the structure.
@@ -37,50 +40,91 @@ var blocks = {
         'lava': ['≈', '#cf1020', '#b70e1c', 'black', true],
         'down stairs': ['>', '#ffffff', '#ffffff', 'black', false],
         'up stairs': ['<', '#ffffff', '#ffffff', 'black', false],
-        'sand': ['.', '#f4a460','#f4a460', 'black', false]
+        'sand': ['.', '#f5cc4d','#f8da7d', 'black', false],
+        'sandwall': ['#', '#f5cc4d','#f8da7d', 'black', true],
+        'sandcrag': ['^', '#f5cc4d','#f8da7d', 'black', true],
+        'cactus': ['♠', '#5c755e','#557855', 'black', false]
 };
 
-// Dict for things in forests
-var structForest = {
+// All possible structures
+var structs = {
     'clearing': ['tree_de', 'grass',
-                [[0, 0, 0, 0, 1, 0, 0, 0, 0],
-                 [0, 0, 0, 1, 1, 1, 0, 0, 0],
-                 [0, 0, 1, 1, 1, 1, 1, 0, 0],
-                 [0, 1, 1, 1, 1, 1, 1, 1, 0],
-                 [1, 1, 1, 1, 1, 1, 1, 1, 1],
-                 [0, 1, 1, 1, 1, 1, 1, 1, 0],
-                 [0, 0, 1, 1, 1, 1, 1, 0, 0],
-                 [0, 0, 0, 1, 1, 1, 0, 0, 0],
-                 [0, 0, 0, 0, 1, 0, 0, 0, 0]
-                ]],
+        [[0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 1, 1, 1, 1, 1, 0, 0],
+        [0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0]
+        ]],
     'path': ['tree_de', 'grass',
-            [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            ]],
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]],
     'hut': ['wall', 'rock',
-           [[0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 0, 0, 1, 1, 0, 0, 0]
+        [[0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 1, 1, 0, 0, 0]
+        ]],
+    'pyramid': ['sandwall', 'sandcrag', 'rock', 'down stairs',
+        [[1, 0, 0, 0, 0, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 1, 0],
+        [0, 0, 2, 3, 3, 2, 0, 0],
+        [0, 0, 2, 1, 1, 2, 0, 0],
+        [0, 0, 2, 1, 1, 2, 0, 0],
+        [0, 0, 2, 2, 2, 2, 0, 0],
+        [0, 1, 0, 2, 2, 0, 1, 0],
+        [1, 0, 0, 2, 2, 0, 0, 1]
         ]],
     'mine': ['wall', 'rock', 'down stairs',
-           [[0, 0, 0, 0, 0, 0],
-            [0, 1, 1, 1, 1, 0],
-            [0, 1, 2, 1, 1, 0],
-            [0, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 0],
-            [0, 0, 1, 1, 0, 0],
-           ]]
+        [[0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 1, 2, 1, 1, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 0, 1, 1, 0, 0],
+        ]],
+    'oasis': ['water', 'grass',
+        [[2, 2, 2, 1, 1, 2, 2, 2],
+        [2, 2, 1, 1, 1, 1, 2, 2],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [1, 1, 1, 0, 0, 1, 1, 1],
+        [1, 1, 1, 0, 0, 1, 1, 1],
+        [2, 1, 1, 1, 1, 1, 1, 2],
+        [2, 2, 1, 1, 1, 1, 2, 2],
+        [2, 2, 2, 1, 1, 2, 2, 2]
+        ]],
+    'mineshaft down': ['wall', 'rock', 'down stairs',
+        [[0, 1, 0],
+        [1, 2, 1],
+        [0, 1, 0]
+        ]],
+    'mineshaft up': ['wall', 'rock', 'up stairs',
+        [[0, 1, 0],
+        [1, 2, 1],
+        [0, 1, 0]
+        ]],
+}
+
+// Forest structs
+
+var structForest = {
+    'clearing': structs['clearing'],
+    'path': structs['path'],
+    'hut': structs['hut'],
+    'mine': structs['mine']
 };
 
-// Dict for strucure chances in forests
 var structChanceForest = {
     'clearing': 3,
     'path': 2,
@@ -88,27 +132,12 @@ var structChanceForest = {
     'mine': 1
 };
 
+// Cave structs
+
 var structCave = {
-    'oasis': ['water', 'grass',
-           [[2, 2, 2, 1, 1, 2, 2, 2],
-            [2, 2, 1, 1, 1, 1, 2, 2],
-            [2, 1, 1, 1, 1, 1, 1, 2],
-            [1, 1, 1, 0, 0, 1, 1, 1],
-            [1, 1, 1, 0, 0, 1, 1, 1],
-            [2, 1, 1, 1, 1, 1, 1, 2],
-            [2, 2, 1, 1, 1, 1, 2, 2],
-            [2, 2, 2, 1, 1, 2, 2, 2]
-        ]],
-    'mineshaft down': ['wall', 'rock', 'down stairs',
-            [[0, 1, 0],
-             [1, 2, 1],
-             [0, 1, 0]
-         ]],
-    'mineshaft up': ['wall', 'rock', 'up stairs',
-            [[0, 1, 0],
-             [1, 2, 1],
-             [0, 1, 0]
-         ]]
+    'oasis': structs['oasis'],
+    'mineshaft down': structs['mineshaft down'],
+    'mineshaft up': structs['mineshaft up']
 }
 
 var structChanceCave = {
@@ -117,40 +146,38 @@ var structChanceCave = {
     'mineshaft up': 1
 }
 
+// Field structs
+
 var structField = {
-    'oasis': ['tree_de', 'grass',
-           [[2, 2, 2, 1, 1, 2, 2, 2],
-            [2, 2, 1, 1, 1, 1, 2, 2],
-            [2, 1, 1, 1, 1, 1, 1, 2],
-            [1, 1, 1, 0, 0, 1, 1, 1],
-            [1, 1, 1, 0, 0, 1, 1, 1],
-            [2, 1, 1, 1, 1, 1, 1, 2],
-            [2, 2, 1, 1, 1, 1, 2, 2],
-            [2, 2, 2, 1, 1, 2, 2, 2]
-        ]],
-    'hut': ['wall', 'rock',
-           [[0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 1, 1, 1, 1, 1, 1, 0],
-            [0, 0, 0, 1, 1, 0, 0, 0]
-       ]]
+    'oasis': structs['oasis'],
+    'hut': structs['hut'],
+    'mineshaft down': structs['mineshaft down']
 }
 
 var structChanceField = {
     'oasis': 5,
-    'hut': 1
+    'hut': 1,
+    'mineshaft down': 1
+}
+
+// Desert structs
+
+var structDesert = {
+    'oasis': structs['oasis'],
+    'pyramid': structs['pyramid']
+}
+
+var structChanceDesert = {
+    'oasis': 5,
+    'pyramid': 1
 }
 
 // Dict to hold structure dict types
 var struct = {
     'forest': structForest,
     'cave': structCave,
-    'field': structField
+    'field': structField,
+    'desert': structDesert,
 }
 
 // Dict to hold structure dict chances
@@ -158,6 +185,7 @@ var structChance = {
     'forest': structChanceForest,
     'cave': structChanceCave,
     'field': structChanceField,
+    'desert': structChanceDesert
 }
 
 // Wrap the creation of tiles
