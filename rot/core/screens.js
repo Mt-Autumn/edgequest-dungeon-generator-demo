@@ -106,11 +106,14 @@ var playScreen = {
             } else if (inputData.keyCode === ROT.VK_DOWN) {
                 Player.move(0, 1);
                 Game.setState('playing');
+            } else {
+                Game.setState('no turn');
             }
 
         } else if (inputType === 'keypress') {
             // Stairs
-            if (key === '>') { // Up
+            // Go up stairs
+            if (key === '>') {
                 if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '>') {
                     Game.overworldMoveVertical(-1);
                     Game.setState('playing');
@@ -118,7 +121,9 @@ var playScreen = {
                 } else {
                     Game.setState('no turn');
                 }
-            } else if (key === '<') { // Down
+
+             // Go up stairs
+            } else if (key === '<') {
                 if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '<') {
                     Game.overworldMoveVertical(1);
                     Game.setState('playing');
@@ -148,13 +153,16 @@ var playScreen = {
             } else if (key === "g") {
                 Game.debugSetBiome('taiga');
                 this.renderAll();
+            } else if (key === "h") {
+                Game.debugSetBiome('desert');
+                this.renderAll();
+            } else {
+                Game.setState('no turn');
             }
 
+        } else {
+            Game.setState('no turn');
         }
-
-        // } else {
-        //     Game.setState('no turn');
-        // }
 
         // Render the game if the player moved
         if (Game.getState() === 'playing') {
