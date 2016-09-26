@@ -26,12 +26,13 @@ var startScreen = {
 
     renderAll: function() {
         // Render our prompt to the screen
-        Canvas.getDisplay().drawText(1,1, "%c{yellow}Javascript Dungeon Generator");
-        Canvas.getDisplay().drawText(1,3, "- Arrow keys to move");
-        Canvas.getDisplay().drawText(1,4, "- p to pause");
-        Canvas.getDisplay().drawText(1,5, "- Worlds are infinite, you aren't confined by the screen!");
-        Canvas.getDisplay().drawText(1,6, "- Use keys from a to g to override the current biome");
-        Canvas.getDisplay().drawText(1,8, "Press [Enter] to start!");
+        Canvas.getDisplay().drawText(1, 1, "%c{yellow}Javascript Dungeon Generator");
+        Canvas.getDisplay().drawText(1, 3, "- Arrow keys to move");
+        Canvas.getDisplay().drawText(1, 4, "- 'p' to pause");
+        Canvas.getDisplay().drawText(1, 5, "- Worlds are infinite, you aren't confined by the screen!");
+        Canvas.getDisplay().drawText(1, 6, "- Use keys from 'a' to 'g' to override the current biome");
+        Canvas.getDisplay().drawText(1, 7, "- Press '<' and '>' on their respective tiles to go up and down");
+        Canvas.getDisplay().drawText(1, 9, "Press [Enter] to start!");
     },
 
     // When [Enter] is pressed, go to the play screen
@@ -102,7 +103,7 @@ var playScreen = {
                 Game.setState('playing');
 
             // Stairs
-            } else if (key === '>') {
+        } else if (key === '>') { // Up
                 if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '>') {
                     Game.overworldMoveVertical(-1);
                     Game.setState('playing');
@@ -110,7 +111,7 @@ var playScreen = {
                 } else {
                     Game.setState('no turn');
                 }
-            } else if (key === '<') {
+            } else if (key === '<') { // Down
                 if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '<') {
                     Game.overworldMoveVertical(1);
                     Game.setState('playing');

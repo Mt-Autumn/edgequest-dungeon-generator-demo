@@ -98,11 +98,23 @@ var structCave = {
             [2, 1, 1, 1, 1, 1, 1, 2],
             [2, 2, 1, 1, 1, 1, 2, 2],
             [2, 2, 2, 1, 1, 2, 2, 2]
-           ]]
+        ]],
+    'mineshaft down': ['wall', 'rock', 'down stairs',
+            [[0, 1, 0],
+             [1, 2, 1],
+             [0, 1, 0]
+         ]],
+    'mineshaft up': ['wall', 'rock', 'up stairs',
+            [[0, 1, 0],
+             [1, 2, 1],
+             [0, 1, 0]
+         ]]
 }
 
 var structChanceCave = {
-    'oasis': 1
+    'oasis': 3,
+    'mineshaft down': 1,
+    'mineshaft up': 1
 }
 
 var structField = {
