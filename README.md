@@ -3,6 +3,7 @@ Modular dungeon generation using ROT.js and vanilla JavaScript
 
 # Features
   - Infinite overworlds
+  - Z-Axis movement
   - Biome generation
   - Modular structure generation
   - Lush ASCII Landscapes
