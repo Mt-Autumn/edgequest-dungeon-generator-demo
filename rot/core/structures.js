@@ -35,6 +35,8 @@ var blocks = {
         // 'tree_de': ['🌳', '#214402', '#02884d', 'black', true],
         'water': ['≈', '#40a4df', '#6093ac', 'black', true],
         'lava': ['≈', '#cf1020', '#b70e1c', 'black', true],
+        'down stairs': ['>', '#ffffff', '#ffffff', 'black', false],
+        'up stairs': ['<', '#ffffff', '#ffffff', 'black', false],
         'sand': ['.', '#f4a460','#f4a460', 'black', false]
 };
 
@@ -66,6 +68,15 @@ var structForest = {
             [0, 1, 1, 1, 1, 1, 1, 0],
             [0, 1, 1, 1, 1, 1, 1, 0],
             [0, 0, 0, 1, 1, 0, 0, 0]
+        ]],
+    'mine': ['wall', 'rock', 'down stairs',
+           [[0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 0],
+            [0, 1, 2, 1, 1, 0],
+            [0, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 0, 0],
            ]]
 };
 
@@ -74,6 +85,7 @@ var structChanceForest = {
     'clearing': 3,
     'path': 2,
     'hut': 1,
+    'mine': 1
 };
 
 var structCave = {

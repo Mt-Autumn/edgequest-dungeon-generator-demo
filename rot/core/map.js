@@ -13,15 +13,19 @@ var Map = {
     _currentBiome: 'forest',
 
     // Store biome chances
-    _biomeChance: {
+    _OverworldBiomeChance: {
         'forest': 6,
         'dense forest': 2,
         'field': 4,
         'taiga': 1
     },
 
+    _UndergroundBiomeChance: {
+        'cave': 1
+    },
+
     // Overworld position
-    _overworldPos: [0, 0],
+    _overworldPos: [0, 0, 0],
 
     // Hash map to store overworld maps
     _overworldMaps: {},
@@ -52,15 +56,22 @@ var Map = {
             // Check to see if a map exists for the current overworld position
             if (this._overworldMaps[this._overworldPos] == undefined) {
                 // If it does not exist, create a map
-                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._biomeChance));
+                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._OverworldBiomeChance));
             }
 
-            // Load up the map for the current overworld position
-            // Regardless if a map exists for the current coords or not,
-            // this should always be ran
-            this._tiles = this._overworldMaps[this._overworldPos];
-
+        } else if (floor < 0) {
+            // Check to see if a map exists for the current overworld position
+            if (this._overworldMaps[this._overworldPos] == undefined) {
+                // If it does not exist, create a map
+                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._UndergroundBiomeChance));
+            }
         }
+
+        // Load up the map for the current overworld position
+        // Regardless if a map exists for the current coords or not,
+        // this should always be ran
+        this._tiles = this._overworldMaps[this._overworldPos];
+
     },
 
     // Get a tile from the map at an x, y
@@ -68,7 +79,7 @@ var Map = {
         // Make sure we are inside the bounds. If we aren't, return
         // null tile.
         if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
-            return makeTile('?', 'white', 'black');
+            return Structures.nullTile;
         } else {
             return this._tiles[x][y] || Structures.nullTile;
         }
@@ -100,10 +111,11 @@ var Map = {
 
     },
 
-    // Move the overworld position by dx, dy
-    moveOverworldPos: function(dx, dy) {
+    // Move the overworld position by dx, dy, dz
+    moveOverworldPos: function(dx, dy, dz) {
         this._overworldPos[0] += dx;
         this._overworldPos[1] += dy;
+        this._overworldPos[2] += dz;
     }
 
 }

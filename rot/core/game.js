@@ -32,6 +32,10 @@ var Game = {
         this._state = state;
     },
 
+    setFloor: function(floor) {
+        this._floor = floor;
+    },
+
     // Override the current biome
     debugSetBiome: function(name) {
         Map.debugSetOverworldBiome(name);
@@ -45,9 +49,23 @@ var Game = {
     },
 
     // Move the player's position in the overworld
-    overworldMove: function(dx, dy) {
-        Map.moveOverworldPos(dx, dy);
+    overworldMove: function(dx, dy, dz) {
+        Map.moveOverworldPos(dx, dy, dz);
         Map.generateMap(this._floor);
+    },
+
+    overworldMoveHorizontal: function(dx, dy) {
+        this.overworldMove(dx, dy, 0);
+    },
+
+    overworldMoveVertical: function(dz) {
+        this.setFloor(this._floor + dz);
+        this.overworldMove(0, 0, dz);
+        if (dz < 0) { // Player going down means we need an up stairs
+            Map._tiles[Player.actor.x][Player.actor.y] = Structures.getTile('up stairs');
+        } else if (dz > 0) { // Player going up means we need a down stairs
+            Map._tiles[Player.actor.x][Player.actor.y] = Structures.getTile('down stairs');
+        }
     },
 
     // Play the game

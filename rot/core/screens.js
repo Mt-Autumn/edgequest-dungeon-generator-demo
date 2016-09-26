@@ -63,19 +63,19 @@ var playScreen = {
         // If they did, that means the overworld position must be shifted
         if (Player.actor.x < 0) {
             Player.actor.setPos(Map.getWidth()-1, Player.actor.y);
-            Game.overworldMove(-1, 0);
+            Game.overworldMoveHorizontal(-1, 0);
             this.renderAll();
         } else if (Player.actor.x >= Map.getWidth()) {
             Player.actor.setPos(0, Player.actor.y);
-            Game.overworldMove(1, 0);
+            Game.overworldMoveHorizontal(1, 0);
             this.renderAll();
         } else if (Player.actor.y < 0) {
             Player.actor.setPos(Player.actor.x, Map.getHeight()-1);
-            Game.overworldMove(0, -1);
+            Game.overworldMoveHorizontal(0, -1);
             this.renderAll();
         } else if (Player.actor.y >= Map.getHeight()) {
             Player.actor.setPos(Player.actor.x, 0);
-            Game.overworldMove(0, 1);
+            Game.overworldMoveHorizontal(0, 1);
             this.renderAll();
         }
     },
@@ -100,6 +100,24 @@ var playScreen = {
             } else if (inputData.keyCode === ROT.VK_DOWN) {
                 Player.move(0, 1);
                 Game.setState('playing');
+
+            // Stairs
+            } else if (key === '>') {
+                if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '>') {
+                    Game.overworldMoveVertical(-1);
+                    Game.setState('playing');
+                    this.renderAll();
+                } else {
+                    Game.setState('no turn');
+                }
+            } else if (key === '<') {
+                if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '<') {
+                    Game.overworldMoveVertical(1);
+                    Game.setState('playing');
+                    this.renderAll();
+                } else {
+                    Game.setState('no turn');
+                }
 
             // Pause
             } else if (key === "p") {
