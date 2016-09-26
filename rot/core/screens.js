@@ -27,12 +27,17 @@ var startScreen = {
     renderAll: function() {
         // Render our prompt to the screen
         Canvas.getDisplay().drawText(1, 1, "%c{yellow}Javascript Dungeon Generator");
-        Canvas.getDisplay().drawText(1, 3, "- Arrow keys to move");
-        Canvas.getDisplay().drawText(1, 4, "- 'p' to pause");
-        Canvas.getDisplay().drawText(1, 5, "- Worlds are infinite, you aren't confined by the screen!");
-        Canvas.getDisplay().drawText(1, 6, "- Use keys from 'a' to 'h' to override the current biome");
+        Canvas.getDisplay().drawText(1, 3, "%c{blue}Controls");
+        Canvas.getDisplay().drawText(1, 4, "- Arrow keys to move");
+        Canvas.getDisplay().drawText(1, 5, "- 'p' to pause");
+        Canvas.getDisplay().drawText(1, 6, "- Move outside the screen to advance the map");
         Canvas.getDisplay().drawText(1, 7, "- Press '<' and '>' on their respective tiles to go up and down");
-        Canvas.getDisplay().drawText(1, 9, "Press [Enter] to start!");
+
+        Canvas.getDisplay().drawText(1, 9, "%c{red}Debug Controls");
+        Canvas.getDisplay().drawText(1, 10, "- Use keys from 'a' to 'h' to override the current biome");
+        Canvas.getDisplay().drawText(1, 11, "- Press 'Enter' to regenerate the current biome");
+        Canvas.getDisplay().drawText(1, 12, "- Press 'r' to force render the screen");
+        Canvas.getDisplay().drawText(1, 14, "Press [Enter] to start!");
     },
 
     // When [Enter] is pressed, go to the play screen
@@ -84,8 +89,9 @@ var playScreen = {
     handleInput: function(inputType, inputData, key) {
         if (inputType === 'keypress') {
 
-            // Render override
+            // Regenerate current biome
             if (inputData.keyCode === ROT.VK_RETURN) {
+                Map.debugRegenOverworldBiome();
                 this.renderAll();
 
             // Movement
@@ -102,8 +108,12 @@ var playScreen = {
                 Player.move(0, 1);
                 Game.setState('playing');
 
+            // Render override
+            } else if (key === 'r') {
+                this.renderAll();
+
             // Stairs
-        } else if (key === '>') { // Up
+            } else if (key === '>') { // Up
                 if (Map.getTile(Player.actor.x, Player.actor.y).getSymbol().getChar() == '>') {
                     Game.overworldMoveVertical(-1);
                     Game.setState('playing');

@@ -41,9 +41,17 @@ var Map = {
         return this._height;
     },
 
+    // Debug
+
     // Override the current biome and regenerate it
     debugSetOverworldBiome: function(name) {
         this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(name);
+        this._tiles = this._overworldMaps[this._overworldPos];
+    },
+
+    // Regenerate current biome
+    debugRegenOverworldBiome: function() {
+        this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(this._currentBiome);
         this._tiles = this._overworldMaps[this._overworldPos];
     },
 
