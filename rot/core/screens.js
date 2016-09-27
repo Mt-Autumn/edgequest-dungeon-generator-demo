@@ -138,6 +138,8 @@ var playScreen = {
                 Game.switchScreen(pauseScreen);
 
             // Debug biome shifting
+            // NOTE: These do not trigger 'generateMap' in the Map object,
+            // therefore skipping the add objects step
             } else if (key === "a") {
                 Game.debugSetBiome('dense forest');
                 this.renderAll();
@@ -166,8 +168,14 @@ var playScreen = {
 
         // Render the game if the player moved
         if (Game.getState() === 'playing') {
+            // Monsters take turns
+            for (obj of Objects.getMons()) {
+                obj.move();
+            }
+
             this.render();
             this.checkPlayer();
+
         }
 
     }

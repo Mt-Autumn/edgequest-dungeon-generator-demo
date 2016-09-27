@@ -63,13 +63,20 @@ var Map = {
 
     // Generate a map based on a dungeon level
     generateMap: function(floor) {
+        Objects.clearMons();
         // Floor 0 is considered to be an infinite overworld
         if (floor == 0) {
+
+            var biome = ROT.RNG.getWeightedValue(this._OverworldBiomeChance)
 
             // Check to see if a map exists for the current overworld position
             if (this._overworldMaps[this._overworldPos] == undefined) {
                 // If it does not exist, create a map
-                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._OverworldBiomeChance));
+                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(biome);
+            }
+
+            if (biome == 'field') {
+                Objects.addMon(Monsters.makeMonster(RandomPos.getSingleFor(this._width), RandomPos.getSingleFor(this._height), 'ant'));
             }
 
         } else if (floor < 0) {

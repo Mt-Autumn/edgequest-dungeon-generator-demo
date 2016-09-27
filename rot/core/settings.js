@@ -17,6 +17,9 @@ var RandomPos = {
     get: function() {
         return [Math.floor(Math.random() * Settings.mapWidth), Math.floor(Math.random() * Settings.mapHeight)]
     },
+    getSingleFor: function(x) {
+        return Math.floor(Math.random() * x)
+    },
     getFor: function(x, y) {
         return [Math.floor(Math.random() * x), Math.floor(Math.random() * y)]
     }

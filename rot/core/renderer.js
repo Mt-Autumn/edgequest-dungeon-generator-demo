@@ -28,19 +28,49 @@ var Renderer = {
                 display.draw(x, y, symbol.getChar(), symbol.getFG(), symbol.getBG());
             }
         }
+        // Draw player
         var symbol = Player.actor.getSymbol();
         display.draw(Player.actor.x, Player.actor.y, symbol.getChar(), symbol.getFG(), symbol.getBG());
+
+        // Draw all monsters
+        for (obj of Objects.getMons()) {
+            // Prevents needless error throwing. If monster doesn't appear,
+            // check to make sure it has an actor element
+            if (obj.actor !== undefined) {
+                var symbol = obj.actor.getSymbol();
+                display.draw(obj.actor.x, obj.actor.y, symbol.getChar(), symbol.getFG(), symbol.getBG());
+            }
+        }
     },
 
     // More optimized renderer, but implies the map has been previously rendered
     // fully
     renderSelect: function(display) {
-        // Objects
+        // Draw player
         var symbol = Player.actor.getSymbol();
-        var oldPos = Player.actor.getOldPos();
         display.draw(Player.actor.x, Player.actor.y, symbol.getChar(), symbol.getFG(), symbol.getBG());
-        // Map
+        // Overwrite last map pos
+        var oldPos = Player.actor.getOldPos();
         symbol = Map.getTile(oldPos[0], oldPos[1]).getSymbol();
         display.draw(oldPos[0], oldPos[1], symbol.getChar(), symbol.getFG(), symbol.getBG());
+
+        // Draw monsters
+        for (obj of Objects.getMons()) {
+            // Prevents needless error throwing. If monster doesn't appear,
+            // check to make sure it has an actor element
+            if (obj.actor !== undefined) {
+                // NOTE: be aware that if a monster doesn't move, this will make it
+                // 'invisible' by overwriting it's position with the corresponding map
+                // tile
+                // Draw monster
+                var symbol = obj.actor.getSymbol();
+                display.draw(obj.actor.x, obj.actor.y, symbol.getChar(), symbol.getFG(), symbol.getBG());
+                // Draw old map tile
+                var oldPos = obj.actor.getOldPos();
+                symbol = Map.getTile(oldPos[0], oldPos[1]).getSymbol();
+                display.draw(oldPos[0], oldPos[1], symbol.getChar(), symbol.getFG(), symbol.getBG());
+            }
+        }
+
     }
 };

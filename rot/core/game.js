@@ -14,6 +14,8 @@ var Game = {
 
     _floor: 0,
 
+    _objects: [Player],
+
     init: function() {
         // Make map
         this.play();
