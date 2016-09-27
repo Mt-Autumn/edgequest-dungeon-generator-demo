@@ -242,6 +242,12 @@ var Generator = {
         return this.buildStructures(map, 'desert');
     },
 
+    // Wrapper to make sky biomes
+    makeSky: function(mx, my, smoothingPasses, density) {
+        var map = this.makeCave(mx, my, 'cloud', 'cloud', 'sky', smoothingPasses, density);
+        return this.buildStructures(map, 'sky');
+    },
+
     // Make a natural cave with some strucutres
     makeNaturalCave: function(mx, my, smoothingPasses, density) {
         var map = this.makeCave(mx, my, 'wall', 'crag', 'rock', smoothingPasses, density);

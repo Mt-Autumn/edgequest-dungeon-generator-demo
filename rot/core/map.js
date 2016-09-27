@@ -25,6 +25,10 @@ var Map = {
         'cave': 1
     },
 
+    _SkyBiomeChance: {
+        'sky': 1
+    },
+
     // Overworld position
     _overworldPos: [0, 0, 0],
 
@@ -74,6 +78,12 @@ var Map = {
                 // If it does not exist, create a map
                 this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._UndergroundBiomeChance));
             }
+        } else if (floor > 0) {
+            // Check to see if a map exists for the current overworld position
+            if (this._overworldMaps[this._overworldPos] == undefined) {
+                // If it does not exist, create a map
+                this._overworldMaps[this._overworldPos] = this.makeBiomeTiles(ROT.RNG.getWeightedValue(this._SkyBiomeChance));
+            }
         }
 
         // Load up the map for the current overworld position
@@ -114,6 +124,9 @@ var Map = {
                 break;
             case 'desert':
                 return Generator.makeDesert(this._width, this._height);
+                break;
+            case 'sky':
+                return Generator.makeSky(this._width, this._height, 2, 0.4);
                 break;
             // Default is a field
             default:

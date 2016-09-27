@@ -43,6 +43,9 @@ var blocks = {
         'sand': ['.', '#f5cc4d','#f8da7d', 'black', false],
         'sandwall': ['#', '#f5cc4d','#f8da7d', 'black', true],
         'sandcrag': ['^', '#f5cc4d','#f8da7d', 'black', true],
+        'sky': [' ', '#7EC0EE','#7EC0EE', '#7EC0EE', true],
+        'cloud': ['%', '#EDEDED','#ffffff', '#dddddd', true],
+        'skycrag': ['^', '#EDEDED','#ffffff', 'black', true],
         'cactus': ['♠', '#5c755e','#557855', 'black', false]
 };
 
@@ -102,6 +105,16 @@ var structs = {
         [2, 2, 1, 1, 1, 1, 2, 2],
         [2, 2, 2, 1, 1, 2, 2, 2]
         ]],
+    'skytemple up': ['skycrag', 'up stairs',
+        [[0, 2, 0],
+        [2, 1, 2],
+        [0, 2, 0]
+        ]],
+    'skytemple down': ['skycrag', 'down stairs',
+        [[0, 2, 0],
+        [2, 1, 2],
+        [0, 2, 0]
+        ]],
     'mineshaft down': ['wall', 'rock', 'down stairs',
         [[0, 1, 0],
         [1, 2, 1],
@@ -149,13 +162,15 @@ var structChanceCave = {
 var structField = {
     'oasis': structs['oasis'],
     'hut': structs['hut'],
-    'mineshaft down': structs['mineshaft down']
+    'mineshaft down': structs['mineshaft down'],
+    'skytemple up': structs['skytemple up']
 }
 
 var structChanceField = {
     'oasis': 5,
     'hut': 1,
-    'mineshaft down': 1
+    'mineshaft down': 1,
+    'skytemple up': 1
 }
 
 // Desert structs
@@ -170,12 +185,25 @@ var structChanceDesert = {
     'pyramid': 1
 }
 
+// Sky structs
+
+var structSky = {
+    'skytemple up': structs['skytemple up'],
+    'skytemple down': structs['skytemple down']
+}
+
+var structChanceSky = {
+    'skytemple up': 1,
+    'skytemple down': 1
+}
+
 // Dict to hold structure dict types
 var struct = {
     'forest': structForest,
     'cave': structCave,
     'field': structField,
     'desert': structDesert,
+    'sky': structSky
 }
 
 // Dict to hold structure dict chances
@@ -183,7 +211,8 @@ var structChance = {
     'forest': structChanceForest,
     'cave': structChanceCave,
     'field': structChanceField,
-    'desert': structChanceDesert
+    'desert': structChanceDesert,
+    'sky': structChanceSky
 }
 
 // Wrap the creation of tiles
