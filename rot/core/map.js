@@ -79,6 +79,10 @@ var Map = {
                 Objects.addMon(Monsters.makeMonster(RandomPos.getSingleFor(this._width), RandomPos.getSingleFor(this._height), 'ant'));
             }
 
+            if (biome == 'field') {
+                Objects.addMon(Monsters.makeMonster(RandomPos.getSingleFor(this._width), RandomPos.getSingleFor(this._height), 'bee'));
+            }
+
         } else if (floor < 0) {
             // Check to see if a map exists for the current overworld position
             if (this._overworldMaps[this._overworldPos] == undefined) {

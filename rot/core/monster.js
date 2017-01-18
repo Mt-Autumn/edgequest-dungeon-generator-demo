@@ -5,7 +5,8 @@
 
 // Possible monster configurations are stored here
 var mon = {
-    'ant': ['a', 'red', 'dumb']
+    'ant': ['a', 'red', 'dumb'],
+    'bee': ['b', 'yellow', 'dumb']
 }
 
 var Monsters = {

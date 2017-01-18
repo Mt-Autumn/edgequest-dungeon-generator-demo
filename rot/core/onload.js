@@ -1,4 +1,5 @@
 // Detect browser
+// I just got this from StackOverflow
 navigator.sayswho = (function() {
     var ua = navigator.userAgent, tem,
     M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
